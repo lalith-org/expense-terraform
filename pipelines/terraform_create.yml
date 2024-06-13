@@ -2,7 +2,7 @@
 format_version: 10
 pipelines:
   terraform-apply:
-    group: terraform-setup
+    group: terraform-setup-expense
     materials:
       git-da613e5:
         git: https://github.com/lalith2211/expense-terraform.git
