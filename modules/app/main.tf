@@ -5,6 +5,7 @@ resource "aws_instance" "vm" {
   
   tags = {
   Name = var.component
+  Monitor = "true"
   }
 }
 
