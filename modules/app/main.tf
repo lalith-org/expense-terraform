@@ -31,7 +31,7 @@ resource "null_resource" "null1" {
       "sudo pip3.11 install ansible",
       "sudo pip3.11 install ansible-core",
       "ansible-pull -i localhost, -U https://github.com/lalith2211/expense-ansible.git get-secrets.yml -e env=${var.env} -e role_name=${var.component}  -e vault_token=${var.vault_token}",
-      "ansible-pull -i localhost, -U https://github.com/lalith2211/expense-ansible.git ansible.yml -e env=${var.env} -e role_name=${var.component} -e @/tmp/common.json -e @/tmp/${var.component}.json"
+      "ansible-pull -i localhost, -U https://github.com/lalith2211/expense-ansible.git ansible.yml -e env=${var.env} -e role_name=${var.component} -e @common.json -e @${var.component}.json"
       #"ansible-pull -U https://github.com/lalith2211/expense-ansible.git ansible.yml -i localhost, -e env=${var.env} -e role=${var.component}",
     ]
   }
