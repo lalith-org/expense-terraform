@@ -16,6 +16,17 @@ resource "aws_vpc_peering_connection" "peering_dev" {
   }
 }
 
+resource "aws_subnet" "frontend_subnet" {
+  count      = length(var.frontend_subnet_list)
+  vpc_id     = aws_vpc.dev.id
+  cidr_block = var.frontend_subnet_list[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.env}-frontend-subnet-${count.index + 1}"
+  }
+}
+
 resource "aws_route" "dev_to_default" {
   route_table_id            = aws_vpc.dev.default_route_table_id
   destination_cidr_block    = var.default_vpc_cidr

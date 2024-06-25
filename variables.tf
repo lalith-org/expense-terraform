@@ -8,3 +8,7 @@ variable "dev_vpc_cidr_block" {}
 variable "default_vpc_id" {}
 variable "default_vpc_cidr" {}
 variable "default_route_table_id" {}
+variable "frontend_subnet_list" {}
+variable "backend_subnet_list" {}
+variable "mysql_subnet_list" {}
+variable "availability_zones" {}
