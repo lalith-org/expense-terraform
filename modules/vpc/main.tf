@@ -17,9 +17,9 @@ resource "aws_vpc_peering_connection" "peering_dev" {
 }
 
 resource "aws_subnet" "frontend_subnet" {
-  count      = length(var.frontend_subnet_list)
-  vpc_id     = aws_vpc.dev.id
-  cidr_block = var.frontend_subnet_list[count.index]
+  count             = length(var.frontend_subnet_list)
+  vpc_id            = aws_vpc.dev.id
+  cidr_block        = var.frontend_subnet_list[count.index]
   availability_zone = var.availability_zones[count.index]
 
   tags = {
