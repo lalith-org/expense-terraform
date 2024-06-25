@@ -32,5 +32,7 @@ module "vpc" {
   dev_vpc_cidr_block = var.dev_vpc_cidr_block
   dev_subnet_cidr_block = var.dev_subnet_cidr_block
   default_vpc_id = var.default_vpc_id
+  default_vpc_cidr = var.default_vpc_cidr
+  default_route_table_id = var.default_route_table_id
   env = var.env
 }
