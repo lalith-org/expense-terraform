@@ -27,6 +27,28 @@ resource "aws_subnet" "frontend_subnet" {
   }
 }
 
+resource "aws_subnet" "backend_subnet" {
+  count             = length(var.backend_subnet_list)
+  vpc_id            = aws_vpc.dev.id
+  cidr_block        = var.backend_subnet_list[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.env}-backend-subnet-${count.index + 1}"
+  }
+}
+
+resource "aws_subnet" "mysql_subnet" {
+  count             = length(var.mysql_subnet_list)
+  vpc_id            = aws_vpc.dev.id
+  cidr_block        = var.mysql_subnet_list[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.env}-mysql-subnet-${count.index + 1}"
+  }
+}
+
 resource "aws_route" "dev_to_default" {
   route_table_id            = aws_vpc.dev.default_route_table_id
   destination_cidr_block    = var.default_vpc_cidr
