@@ -129,20 +129,20 @@ resource "aws_route_table" "mysql_rt" {
 
 resource "aws_route_table_association" "fe-subnet-rt-assn" {
   count          = length(var.frontend_subnet_list)
-  subnet_id      = aws_subnet.frontend_subnet.*.id
-  route_table_id = aws_route_table.frontend_rt.*.id
+  subnet_id      = aws_subnet.frontend_subnet[count.index].id
+  route_table_id = aws_route_table.frontend_rt[count.index].id
 }
 
 resource "aws_route_table_association" "be-subnet-rt-assn" {
   count          = length(var.backend_subnet_list)
-  subnet_id      = aws_subnet.backend_subnet.*.id
-  route_table_id = aws_route_table.backend_rt.*.id
+  subnet_id      = aws_subnet.backend_subnet[count.index].id
+  route_table_id = aws_route_table.backend_rt[count.index].id
 }
 
 resource "aws_route_table_association" "mysql-subnet-rt-assn" {
   count          = length(var.mysql_subnet_list)
-  subnet_id      = aws_subnet.mysql_subnet.*.id
-  route_table_id = aws_route_table.mysql_rt.*.id
+  subnet_id      = aws_subnet.mysql_subnet[count.index].id
+  route_table_id = aws_route_table.mysql_rt[count.index].id
 }
 
 # create route tables for public subnets
