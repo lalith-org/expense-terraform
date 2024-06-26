@@ -46,4 +46,5 @@ module "vpc" {
   mysql_subnet_list       = var.mysql_subnet_list
   availability_zones      = var.availability_zones
   env                     = var.env
+  public_subnet_list      = var.public_subnet_list
 }
