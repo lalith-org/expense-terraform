@@ -8,3 +8,4 @@ variable "frontend_subnet_list" {}
 variable "backend_subnet_list" {}
 variable "mysql_subnet_list" {}
 variable "availability_zones" {}
+variable "public_subnet_list" {}

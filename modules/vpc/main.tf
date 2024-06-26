@@ -60,3 +60,15 @@ resource "aws_route" "default_to_dev" {
   destination_cidr_block    = aws_vpc.dev.cidr_block
   vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
 }
+
+# creating 2 public subnets
+resource "aws_subnet" "public_subnet" {
+  count             = length(var.public_subnet_list)
+  vpc_id            = aws_vpc.dev.id
+  cidr_block        = var.backend_subnet_list[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "public-subnet-${count.index + 1}"
+  }
+}
