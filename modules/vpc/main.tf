@@ -65,7 +65,7 @@ resource "aws_route" "default_to_dev" {
 resource "aws_subnet" "public_subnet" {
   count             = length(var.public_subnet_list)
   vpc_id            = aws_vpc.dev.id
-  cidr_block        = var.backend_subnet_list[count.index]
+  cidr_block        = var.public_subnet_list[count.index]
   availability_zone = var.availability_zones[count.index]
 
   tags = {
