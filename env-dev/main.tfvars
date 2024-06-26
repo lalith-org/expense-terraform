@@ -12,4 +12,4 @@ mysql_subnet_list = ["10.10.0.128/27","10.10.0.160/27"]
 availability_zones = ["us-east-1a", "us-east-1b"]
 
 # subnets for NAT gateway
-public_subnets_list = ["10.10.0.192/27","10.10.0.224/27"]
+public_subnet_list = ["10.10.0.192/27","10.10.0.224/27"]
