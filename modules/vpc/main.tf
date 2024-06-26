@@ -78,7 +78,66 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.dev.id
 
   tags = {
-    Name = "gw-${var.env}"
+    Name = "igw-${var.env}"
   }
 }
 
+# creating 2 route tables for 2 VPCs
+resource "aws_route_table" "frontend_rt" {
+  count   = length(var.frontend_subnet_list)
+  vpc_id  = aws_vpc.dev.id
+
+  route {
+    cidr_block                = var.default_vpc_cidr
+    vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
+  }
+
+  tags = {
+    Name = "frontend-rt-${count.index + 1}"
+  }
+}
+
+resource "aws_route_table" "backend_rt" {
+  count   = length(var.backend_subnet_list)
+  vpc_id  = aws_vpc.dev.id
+
+  route {
+    cidr_block                = var.default_vpc_cidr
+    vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
+  }
+
+  tags = {
+    Name = "backend-rt-${count.index + 1}"
+  }
+}
+
+resource "aws_route_table" "mysql_rt" {
+  count   = length(var.mysql_subnet_list)
+  vpc_id  = aws_vpc.dev.id
+
+  route {
+    cidr_block                = var.default_vpc_cidr
+    vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
+  }
+
+  tags = {
+    Name = "mysql-rt-${count.index + 1}"
+  }
+}
+
+# associate route tables created with subnets
+
+resource "aws_route_table_association" "fe-subnet-rt-assn" {
+  subnet_id      = aws_subnet.frontend_subnet.id
+  route_table_id = aws_route_table.frontend_rt.id
+}
+
+resource "aws_route_table_association" "be-subnet-rt-assn" {
+  subnet_id      = aws_subnet.backend_subnet.id
+  route_table_id = aws_route_table.backend_rt.id
+}
+
+resource "aws_route_table_association" "mysql-subnet-rt-assn" {
+  subnet_id      = aws_subnet.mysql_subnet.id
+  route_table_id = aws_route_table.mysql_rt.id
+}
