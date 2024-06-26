@@ -72,3 +72,13 @@ resource "aws_subnet" "public_subnet" {
     Name = "public-subnet-${count.index + 1}"
   }
 }
+
+# for providing internet to subnets
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.dev.id
+
+  tags = {
+    Name = "gw-${var.env}"
+  }
+}
+
