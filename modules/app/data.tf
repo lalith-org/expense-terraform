@@ -4,10 +4,6 @@ data "aws_ami" "example" {
   owners           = ["973714476881"]
 }
 
-#data "aws_security_group" "selected" {
-#  name = "allow-all"
-#}
-##
-#data "vault_generic_secret" "ssh_creds" {
-#  path = "common/common"
-#}
+data "vault_generic_secret" "ssh_creds" {
+  path = "common/common"
+}
