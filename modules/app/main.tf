@@ -25,7 +25,7 @@ resource "aws_security_group" "main" {
 resource "aws_instance" "vm" {
   ami                     = data.aws_ami.example.id
   instance_type           = var.instance_type
-  vpc_security_group_ids  = [aws_security_group.main]
+  vpc_security_group_ids  = [aws_security_group.main.id]
   subnet_id                = var.subnets[0]
 
   tags = {
