@@ -156,7 +156,29 @@ resource "aws_route_table" "public_rt" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
   }
 
+  route {
+    cidr_block                = "0.0.0.0/0"
+    gateway_id                = aws_internet_gateway.gw.id
+  }
+
   tags = {
     Name = "public-rt-${count.index + 1}"
   }
 }
+
+# creating a NAT gateway
+resource "aws_eip" "ngw" {
+  count  = length(var.public_subnet_list)
+  domain   = "vpc"
+}
+
+resource "aws_nat_gateway" "nat_gw" {
+  count         = length(var.public_subnet_list)
+  allocation_id = aws_eip.ngw[count.index].id
+  subnet_id     = aws_subnet.public_subnet[count.index].id
+
+  tags = {
+    Name = "gw-NAT-${count.index + 1}"
+  }
+}
+
