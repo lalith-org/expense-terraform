@@ -128,16 +128,35 @@ resource "aws_route_table" "mysql_rt" {
 # associate route tables created with subnets
 
 resource "aws_route_table_association" "fe-subnet-rt-assn" {
-  subnet_id      = aws_subnet.frontend_subnet.id
-  route_table_id = aws_route_table.frontend_rt.id
+  count          = length(var.frontend_subnet_list)
+  subnet_id      = aws_subnet.frontend_subnet.*.id
+  route_table_id = aws_route_table.frontend_rt.*.id
 }
 
 resource "aws_route_table_association" "be-subnet-rt-assn" {
-  subnet_id      = aws_subnet.backend_subnet.id
-  route_table_id = aws_route_table.backend_rt.id
+  count          = length(var.backend_subnet_list)
+  subnet_id      = aws_subnet.backend_subnet.*.id
+  route_table_id = aws_route_table.backend_rt.*.id
 }
 
 resource "aws_route_table_association" "mysql-subnet-rt-assn" {
-  subnet_id      = aws_subnet.mysql_subnet.id
-  route_table_id = aws_route_table.mysql_rt.id
+  count          = length(var.mysql_subnet_list)
+  subnet_id      = aws_subnet.mysql_subnet.*.id
+  route_table_id = aws_route_table.mysql_rt.*.id
+}
+
+# create route tables for public subnets
+
+resource "aws_route_table" "public_rt" {
+  count   = length(var.public_subnet_list)
+  vpc_id  = aws_vpc.dev.id
+
+  route {
+    cidr_block                = var.default_vpc_cidr
+    vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
+  }
+
+  tags = {
+    Name = "public-rt-${count.index + 1}"
+  }
 }
