@@ -82,7 +82,7 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-# creating 2 route tables for 2 VPCs
+# creating 2 route tables for each component
 resource "aws_route_table" "frontend_rt" {
   count   = length(var.frontend_subnet_list)
   vpc_id  = aws_vpc.dev.id
@@ -90,6 +90,11 @@ resource "aws_route_table" "frontend_rt" {
   route {
     cidr_block                = var.default_vpc_cidr
     vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
+  }
+
+  route {
+    cidr_block                = "0.0.0.0/0"
+    nat_gateway_id            = aws_nat_gateway.nat_gw[count.index].id
   }
 
   tags = {
@@ -106,6 +111,11 @@ resource "aws_route_table" "backend_rt" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
   }
 
+  route {
+    cidr_block                = "0.0.0.0/0"
+    nat_gateway_id            = aws_nat_gateway.nat_gw[count.index].id
+  }
+
   tags = {
     Name = "backend-rt-${count.index + 1}"
   }
@@ -118,6 +128,11 @@ resource "aws_route_table" "mysql_rt" {
   route {
     cidr_block                = var.default_vpc_cidr
     vpc_peering_connection_id = aws_vpc_peering_connection.peering_dev.id
+  }
+
+  route {
+    cidr_block                = "0.0.0.0/0"
+    nat_gateway_id            = aws_nat_gateway.nat_gw[count.index].id
   }
 
   tags = {
