@@ -49,7 +49,7 @@ resource "null_resource" "null1" {
       type     = "ssh"
       user     = jsondecode(data.vault_generic_secret.ssh_creds.data_json).ansible_user
       password = jsondecode(data.vault_generic_secret.ssh_creds.data_json).ansible_password
-      host     = aws_instance.vm.public_ip
+      host     = aws_instance.vm.private_ip
     }
 
     inline = [
