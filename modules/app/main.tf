@@ -65,7 +65,7 @@ resource "null_resource" "null1" {
 
 # creating a load balancer
 resource "aws_lb" "test" {
-  name               = "${component}-${env}-alb"
+  name               = "${var.component}-${var.env}-alb"
   internal           = var.lb_type == "public" ? false : true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.main.id]
@@ -74,7 +74,7 @@ resource "aws_lb" "test" {
   enable_deletion_protection = true
 
   tags = {
-    Name = "${component}-${env}-alb"
+    Name = "${var.component}-${var.env}-sg"
   }
 }
 
