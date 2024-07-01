@@ -70,7 +70,7 @@ resource "aws_lb" "test" {
   internal           = var.lb_type == "public" ? false : true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.main.id]
-  subnets            = [var.lb_subnets]
+  subnets            = var.lb_subnets
 
   enable_deletion_protection = true
 
