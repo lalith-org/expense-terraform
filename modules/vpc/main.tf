@@ -212,8 +212,3 @@ resource "aws_route_table_association" "mysql-subnet-rt-assn" {
   subnet_id      = aws_subnet.mysql_subnet[count.index].id
   route_table_id = aws_route_table.mysql_rt[count.index].id
 }
-
-
-
-
-

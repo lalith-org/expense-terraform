@@ -8,6 +8,9 @@ module "frontend" {
   vault_token   = var.vault_token
   subnets       = module.vpc.frontend_subnet_list
   vpc_id        = module.vpc.vpc_id
+  lb_needed     = "true"
+  lb_type  = "false"
+  lb_subnets    = module.vpc.lb_subnets_list
 }
 
 module "backend" {
@@ -20,6 +23,9 @@ module "backend" {
   vault_token   = var.vault_token
   subnets       = module.vpc.backend_subnet_list
   vpc_id        = module.vpc.vpc_id
+  lb_needed     = "true"
+  lb_type  = "false"
+  lb_subnets    = module.vpc.backend_subnet_list
 }
 
 module "mysql" {
@@ -31,7 +37,6 @@ module "mysql" {
   vault_token   = var.vault_token
   subnets       = module.vpc.mysql_subnet_list
   vpc_id        = module.vpc.vpc_id
-
 }
 
 module "vpc" {

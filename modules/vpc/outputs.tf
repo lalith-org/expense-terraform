@@ -13,3 +13,7 @@ output "frontend_subnet_list" {
 output "backend_subnet_list" {
   value = aws_subnet.backend_subnet.*.id
 }
+
+output "lb_subnets_list" {
+  value = aws_subnet.public_subnet.*.id
+}
