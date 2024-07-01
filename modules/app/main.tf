@@ -91,18 +91,22 @@ resource "aws_lb_target_group" "tg" {
 
 resource "aws_lb_target_group_attachment" "tg-ga" {
   count    = var.lb_needed ? 1 : 0
-  target_group_arn = aws_lb_target_group.tg.arn
+  target_group_arn = aws_lb_target_group.tg[0].arn
   target_id        = aws_instance.vm.id
   port             = var.app_port
 }
 
 resource "aws_lb_listener" "front_end" {
-  load_balancer_arn = aws_lb.test.arn
+  load_balancer_arn = aws_lb.test[0].arn
   port              = var.app_port
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg.arn
+    target_group_arn = aws_lb_target_group.tg[0].arn
   }
+}
+
+output "aws_lb" {
+  value = aws_lb.test
 }
