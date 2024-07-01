@@ -65,6 +65,7 @@ resource "null_resource" "null1" {
 
 # creating a load balancer
 resource "aws_lb" "test" {
+  count    = var.lb_needed ? 1 : 0
   name               = "${var.component}-${var.env}-alb"
   internal           = var.lb_type == "public" ? false : true
   load_balancer_type = "application"

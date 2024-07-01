@@ -37,6 +37,7 @@ module "mysql" {
   vault_token   = var.vault_token
   subnets       = module.vpc.mysql_subnet_list
   vpc_id        = module.vpc.vpc_id
+  lb_needed     = "false"
 }
 
 module "vpc" {
