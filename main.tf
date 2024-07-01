@@ -11,6 +11,7 @@ module "frontend" {
   lb_needed     = "true"
   lb_type  = "false"
   lb_subnets    = module.vpc.lb_subnets_list
+  app_port = 80
 }
 
 module "backend" {
@@ -26,6 +27,7 @@ module "backend" {
   lb_needed     = "true"
   lb_type  = "false"
   lb_subnets    = module.vpc.backend_subnet_list
+  app_port = 8080
 }
 
 module "mysql" {
