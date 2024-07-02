@@ -72,7 +72,7 @@ resource "aws_lb" "test" {
   security_groups    = [aws_security_group.main.id]
   subnets            = var.lb_subnets
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   tags = {
     Name = "${var.component}-${var.env}-sg"
@@ -101,8 +101,6 @@ resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.test[0].arn
   port              = var.app_port
   protocol          = "HTTP"
-
-  enable_deletion_protection = false
 
   default_action {
     type             = "forward"
