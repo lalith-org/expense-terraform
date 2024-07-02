@@ -102,6 +102,8 @@ resource "aws_lb_listener" "front_end" {
   port              = var.app_port
   protocol          = "HTTP"
 
+  enable_deletion_protection = false
+
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.tg[0].arn
