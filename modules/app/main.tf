@@ -41,6 +41,7 @@ resource "aws_security_group" "main" {
 
 
 resource "aws_security_group" "load-balancer" {
+  count       = var.lb_needed ? 1 : 0
   name        = "${var.component}-${var.env}-lb"
   description = "Allow TLS inbound traffic and all outbound traffic"
   vpc_id      = var.vpc_id
@@ -51,22 +52,6 @@ resource "aws_security_group" "load-balancer" {
     to_port         = var.app_port
     protocol        = "TCP"
     cidr_blocks     = var.lb_app_port_sg_cidr
-  }
-
-  # SSH
-  ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "TCP"
-    cidr_blocks     = var.bastion_nodes
-  }
-
-  # Prometheus
-  ingress {
-    from_port       = 9100
-    to_port         = 9100
-    protocol        = "TCP"
-    cidr_blocks     = var.prometheus_nodes
   }
 
   egress {
