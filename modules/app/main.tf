@@ -101,7 +101,7 @@ resource "aws_lb_target_group" "tg" {
 
   health_check {
     healthy_threshold   = 2
-    interval            = 2
+    interval            = 5
     path                = "/health"
     port                = var.app_port
     timeout             = 2
