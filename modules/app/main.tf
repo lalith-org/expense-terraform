@@ -124,7 +124,7 @@ resource "aws_lb" "test" {
   name               = "${var.component}-${var.env}-alb"
   internal           = var.lb_type == "public" ? false : true
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.load-balancer.id]
+  security_groups    = [aws_security_group.load-balancer[0].id]
   subnets            = var.lb_subnets
 
   enable_deletion_protection = false
