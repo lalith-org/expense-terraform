@@ -9,7 +9,7 @@ module "frontend" {
   subnets       = module.vpc.frontend_subnet_list
   vpc_id        = module.vpc.vpc_id
   lb_needed     = "true"
-  lb_type  = "false"
+  lb_type  = "public"
   lb_subnets    = module.vpc.lb_subnets_list
   app_port = 80
 }
@@ -25,7 +25,7 @@ module "backend" {
   subnets       = module.vpc.backend_subnet_list
   vpc_id        = module.vpc.vpc_id
   lb_needed     = "true"
-  lb_type  = "false"
+  lb_type  = "private"
   lb_subnets    = module.vpc.backend_subnet_list
   app_port = 8080
 }

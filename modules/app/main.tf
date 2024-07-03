@@ -35,7 +35,7 @@ resource "aws_instance" "vm" {
   }
 }
 
-resource "aws_route53_record" "domain" {
+resource "aws_route53_record" "server" {
   count   = var.lb_needed ? 0 : 1
   zone_id = var.zone_id
   name    = "${var.component}-${var.env}"
@@ -45,7 +45,7 @@ resource "aws_route53_record" "domain" {
 }
 
 
-resource "aws_route53_record" "server" {
+resource "aws_route53_record" "load_balancer" {
   count   = var.lb_needed ? 1 : 0
   zone_id = var.zone_id
   name    = "${var.component}-${var.env}"
@@ -98,6 +98,7 @@ resource "aws_lb_target_group" "tg" {
   port                  = var.app_port
   protocol              = "HTTP"
   vpc_id                = var.vpc_id
+  deregistration_delay  = 15
 
   health_check {
     healthy_threshold   = 2
