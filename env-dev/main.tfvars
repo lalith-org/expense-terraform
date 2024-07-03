@@ -13,3 +13,5 @@ availability_zones = ["us-east-1a", "us-east-1b"]
 
 # subnets for NAT gateway
 public_subnet_list = ["10.10.0.192/27","10.10.0.224/27"]
+bastion_nodes = ["172.31.82.22/32"]
+prometheus_nodes = ["172.31.43.186/32"]
