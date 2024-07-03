@@ -36,11 +36,22 @@ resource "aws_instance" "vm" {
 }
 
 resource "aws_route53_record" "domain" {
+  count   = var.lb_needed ? 0 : 1
   zone_id = var.zone_id
   name    = "${var.component}-${var.env}"
   type    = "A"
   ttl     = 30
   records = [aws_instance.vm.private_ip]
+}
+
+
+resource "aws_route53_record" "server" {
+  count   = var.lb_needed ? 1 : 0
+  zone_id = var.zone_id
+  name    = "${var.component}-${var.env}"
+  type    = "CNAME"
+  ttl     = 30
+  records = [aws_lb.test[0].dns_name]
 }
 
 resource "null_resource" "null1" {
@@ -82,11 +93,20 @@ resource "aws_lb" "test" {
 
 # target groups for load balancers
 resource "aws_lb_target_group" "tg" {
-  count    = var.lb_needed ? 1 : 0
-  name     = "${var.component}-${var.env}-tg"
-  port     = var.app_port
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+  count                 = var.lb_needed ? 1 : 0
+  name                  = "${var.component}-${var.env}-tg"
+  port                  = var.app_port
+  protocol              = "HTTP"
+  vpc_id                = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 2
+    interval            = 2
+    path                = '/health'
+    port                = var.app_port
+    timeout             = 2
+    unhealthy_threshold = 2
+  }
 }
 
 resource "aws_lb_target_group_attachment" "tg-ga" {
