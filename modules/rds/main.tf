@@ -29,7 +29,7 @@ resource "aws_db_subnet_group" "default" {
 }
 
 resource "aws_security_group" "main" {
-  name        = "${var.component}-${var.env}-sg"
+  name        = "${var.component}-${var.env}-sg-rds"
   description = "${var.component}-${var.env}-sg"
   vpc_id      = var.vpc_id
 
@@ -48,6 +48,6 @@ resource "aws_security_group" "main" {
   }
 
   tags = {
-    Name = "${var.component}-${var.env}-sg"
+    Name = "${var.component}-${var.env}-sg-rds"
   }
 }
