@@ -163,7 +163,7 @@ resource "aws_lb_target_group_attachment" "tg-ga" {
 
 # redirect the HTTP request to HTTPS port
 resource "aws_lb_listener" "frontend_http" {
-  count             = var.lb_needed && var.component == "frontend" ? 1 : 0
+  count             = var.lb_needed && var.lb_type == "public" ? 1 : 0
   load_balancer_arn = aws_lb.test[0].arn
   port              = var.app_port
   protocol          = "HTTP"
