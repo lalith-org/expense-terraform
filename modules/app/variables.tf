@@ -23,3 +23,6 @@ variable "server_app_port_sg_cidr" {}
 variable "lb_app_port_sg_cidr" {
   default = []
 }
+variable "lb_ports" {
+  default = {}
+}

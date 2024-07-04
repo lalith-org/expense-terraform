@@ -47,14 +47,18 @@ resource "aws_security_group" "load-balancer" {
   vpc_id      = var.vpc_id
 
   # app port
-  ingress {
-    from_port       = var.app_port
-    to_port         = var.app_port
-    protocol        = "TCP"
-    cidr_blocks     = var.lb_app_port_sg_cidr
+
+  dynamic "ingress" {
+    for_each = var.lb_ports
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      value       = "TCP"
+      cidr_blocks = var.lb_app_port_sg_cidr
+    }
   }
 
-  egress {
+    egress {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
