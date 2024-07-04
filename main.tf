@@ -56,6 +56,20 @@ module "mysql" {
   server_app_port_sg_cidr = var.backend_subnet_list
 }
 
+module "rds" {
+  source            = "./modules/rds"
+  rds_engine        = "rds"
+  engine_version    = "8.0.3"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  component         = "mysql"
+  family            = "mysql8.0"
+  env               = var.env
+  subnet_ids        = module.vpc.mysql_subnet_list
+  vpc_id        = module.vpc.vpc_id
+  server_app_port_sg_cidr = var.backend_subnet_list
+}
+
 module "vpc" {
   source                  = "./modules/vpc"
   dev_vpc_cidr_block      = var.dev_vpc_cidr_block

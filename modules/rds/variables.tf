@@ -1,0 +1,10 @@
+variable "rds_engine" {}
+variable "engine_version" {}
+variable "instance_class" {}
+variable "allocated_storage" {}
+variable "family" {}
+variable "component" {}
+variable "env" {}
+variable "subnet_ids" {}
+variable "vpc_id" {}
+variable "server_app_port_sg_cidr" {}
