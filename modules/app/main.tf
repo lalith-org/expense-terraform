@@ -161,8 +161,41 @@ resource "aws_lb_target_group_attachment" "tg-ga" {
   port             = var.app_port
 }
 
-resource "aws_lb_listener" "front_end" {
-  count             = var.lb_needed ? 1 : 0
+# redirect the HTTP request to HTTPS port
+resource "aws_lb_listener" "frontend_http" {
+  count             = var.lb_needed && var.component == "frontend" ? 1 : 0
+  load_balancer_arn = aws_lb.test[0].arn
+  port              = var.app_port
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+# accepting the HTTPS requests
+resource "aws_lb_listener" "frontend_https" {
+  count             = var.lb_needed && var.lb_type == "public" ? 1 : 0
+  load_balancer_arn = aws_lb.test[0].arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = "arn:aws:acm:us-east-1:730335477956:certificate/52a63498-506f-458d-a938-3084db5812db"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg[0].arn
+  }
+}
+
+resource "aws_lb_listener" "backend" {
+  count             = var.lb_needed && var.lb_type != "public" ? 1 : 0
   load_balancer_arn = aws_lb.test[0].arn
   port              = var.app_port
   protocol          = "HTTP"
