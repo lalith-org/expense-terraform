@@ -59,7 +59,7 @@ module "mysql" {
 module "rds" {
   source            = "./modules/rds"
   rds_engine        = "mysql"
-  engine_version    = "8.0.3"
+  engine_version    = "8.0.36"
   instance_class    = "db.t3.micro"
   allocated_storage = 20
   component         = "mysql"
