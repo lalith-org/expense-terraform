@@ -12,6 +12,7 @@ resource "aws_db_instance" "default" {
   multi_az             = false
   publicly_accessible  = false
   db_subnet_group_name = aws_db_subnet_group.default.name
+  vpc_security_group_ids = [aws_security_group.main.id]
 }
 
 resource "aws_db_parameter_group" "default" {
