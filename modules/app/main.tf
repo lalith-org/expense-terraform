@@ -76,6 +76,11 @@ resource "aws_instance" "vm" {
   vpc_security_group_ids  = [aws_security_group.main.id]
   subnet_id                = var.subnets[0]
 
+  root_block_device = {
+    encrypted = true
+    kms_key_id = var.kms_key_id
+  }
+
   tags = {
   Name = var.component
   Monitor = "true"
@@ -103,6 +108,11 @@ resource "aws_route53_record" "load_balancer" {
 }
 
 resource "null_resource" "null1" {
+
+  triggers = {
+    instance = aws_instance.vm.id
+  }
+
   provisioner "remote-exec" {
     connection {
       type     = "ssh"

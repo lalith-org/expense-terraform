@@ -15,3 +15,4 @@ variable "availability_zones" {}
 variable "public_subnet_list" {}
 variable "bastion_nodes" {}
 variable "prometheus_nodes" {}
+variable "kms_key_id" {}

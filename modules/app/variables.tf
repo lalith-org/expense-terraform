@@ -26,3 +26,4 @@ variable "lb_app_port_sg_cidr" {
 variable "lb_ports" {
   default = {}
 }
+variable "kms_key_id" {}

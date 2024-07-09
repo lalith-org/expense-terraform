@@ -17,6 +17,7 @@ module "frontend" {
   server_app_port_sg_cidr = var.public_subnet_list
   lb_app_port_sg_cidr     = ["0.0.0.0/0"]
   lb_ports = {"https":443, "http":80}
+  kms_key_id  = var.kms_key_id
 }
 
 module "backend" {
@@ -38,6 +39,7 @@ module "backend" {
   server_app_port_sg_cidr = concat(var.frontend_subnet_list, var.backend_subnet_list)
   lb_app_port_sg_cidr     = var.frontend_subnet_list
   lb_ports = {"http":8080}
+  kms_key_id  = var.kms_key_id
 }
 
 #module "mysql" {
@@ -68,6 +70,7 @@ module "rds" {
   subnet_ids        = module.vpc.mysql_subnet_list
   vpc_id        = module.vpc.vpc_id
   server_app_port_sg_cidr = var.backend_subnet_list
+  kms_key_id  = var.kms_key_id
 }
 
 module "vpc" {
