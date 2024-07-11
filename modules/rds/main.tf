@@ -5,8 +5,8 @@ resource "aws_db_instance" "default" {
   engine               = var.rds_engine #done
   engine_version       = var.engine_version
   instance_class       = var.instance_class
-  username             = jsondecode(data.vault_generic_secret.ssh_creds.data_json).db_user
-  password             = jsondecode(data.vault_generic_secret.ssh_creds.data_json).db_password
+  username             = jsondecode(data.vault_generic_secret.ssh_creds.data_json).rds_username
+  password             = jsondecode(data.vault_generic_secret.ssh_creds.data_json).rds_password
   parameter_group_name = aws_db_parameter_group.default.name
   skip_final_snapshot  = true
   multi_az             = false
@@ -15,10 +15,11 @@ resource "aws_db_instance" "default" {
   vpc_security_group_ids = [aws_security_group.main.id]
   kms_key_id              = var.kms_key_id
   storage_encrypted       = true
+  storage_type            = var.storage_type
 }
 
 resource "aws_db_parameter_group" "default" {
-  name   = "rds-pg"
+  name   = "${var.component}-${var.env}-pg"
   family = var.family
 }
 
@@ -32,7 +33,7 @@ resource "aws_db_subnet_group" "default" {
 }
 
 resource "aws_security_group" "main" {
-  name        = "${var.component}-${var.env}-sg-rds"
+  name        = "${var.component}-${var.env}-sg"
   description = "${var.component}-${var.env}-sg"
   vpc_id      = var.vpc_id
 
@@ -51,6 +52,6 @@ resource "aws_security_group" "main" {
   }
 
   tags = {
-    Name = "${var.component}-${var.env}-sg-rds"
+    Name = "${var.component}-${var.env}-sg"
   }
 }

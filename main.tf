@@ -71,6 +71,7 @@ module "rds" {
   vpc_id        = module.vpc.vpc_id
   server_app_port_sg_cidr = var.backend_subnet_list
   kms_key_id  = var.kms_key_id
+  storage_type            = "gp3"
 }
 
 module "vpc" {
