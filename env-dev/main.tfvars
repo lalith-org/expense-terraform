@@ -18,3 +18,5 @@ prometheus_nodes = ["172.31.43.186/32"]
 
 # KMS Key for RDS encryption
 kms_key_id = "arn:aws:kms:us-east-1:730335477956:key/7570cd12-136f-4f63-9dce-de3adfd518d1"
+max_capacity = 5
+min_capacity = 1
