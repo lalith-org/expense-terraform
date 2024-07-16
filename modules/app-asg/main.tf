@@ -60,7 +60,7 @@ resource "aws_autoscaling_group" "bar" {
   min_size           = var.min_capacity
 
   launch_template {
-    id      = aws_launch_template.asg-launch-template.id
+    id      = aws_launch_template.main.id
     version = "$Latest"
   }
 
