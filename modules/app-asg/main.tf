@@ -44,6 +44,12 @@ resource "aws_launch_template" "asg-launch-template" {
   image_id      = data.aws_ami.example.id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
+
+  user_data = base64encode(templatefile("${path.module}/userdata.sh", {
+    component   = var.component
+    env         = var.env
+    vault_token = var.vault_token
+  }))
 }
 
 resource "aws_autoscaling_group" "bar" {
@@ -55,6 +61,12 @@ resource "aws_autoscaling_group" "bar" {
   launch_template {
     id      = aws_launch_template.asg-launch-template.id
     version = "$Latest"
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "${var.component}-${var.env}"
+    propagate_at_launch = true
   }
 }
 

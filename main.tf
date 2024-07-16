@@ -34,6 +34,7 @@ module "backend" {
   server_app_port_sg_cidr   = concat(var.frontend_subnet_list, var.backend_subnet_list)
   subnets                   = module.vpc.backend_subnet_list
   vpc_id                    = module.vpc.vpc_id
+  vault_token               = var.vault_token
 }
 
 
