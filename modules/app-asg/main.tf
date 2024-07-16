@@ -39,17 +39,18 @@ resource "aws_security_group" "main" {
   }
 }
 
-resource "aws_launch_template" "asg-launch-template" {
-  name_prefix   = "${var.env}-${var.component}"
-  image_id      = data.aws_ami.example.id
-  instance_type = var.instance_type
-  vpc_security_group_ids = [aws_security_group.main.id]
+resource "aws_launch_template" "main" {
+  name                    = "${var.component}-${var.env}"
+  image_id                = data.aws_ami.example.id
+  instance_type           = var.instance_type
+  vpc_security_group_ids  = [aws_security_group.main.id]
 
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
     component   = var.component
     env         = var.env
     vault_token = var.vault_token
   }))
+
 }
 
 resource "aws_autoscaling_group" "bar" {
