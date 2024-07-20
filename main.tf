@@ -35,6 +35,11 @@ module "frontend" {
   subnets                   = module.vpc.frontend_subnet_list
   vpc_id                    = module.vpc.vpc_id
   vault_token               = var.vault_token
+  lb_app_port_sg_cidr       = ["0.0.0.0/0"]
+  lb_ports                  = {"https":443, "http":80}
+  lb_subnets                = module.vpc.lb_subnets_list
+  lb_type                   = "public"
+  zone_id                   = var.zone_id
 }
 
 module "backend" {
@@ -51,6 +56,11 @@ module "backend" {
   subnets                   = module.vpc.backend_subnet_list
   vpc_id                    = module.vpc.vpc_id
   vault_token               = var.vault_token
+  lb_app_port_sg_cidr       = var.frontend_subnet_list
+  lb_ports                  = { http : 8080 }
+  lb_subnets                = module.vpc.backend_subnet_list
+  lb_type                   = "private"
+  zone_id                   = var.zone_id
 }
 
 
