@@ -154,6 +154,7 @@ resource "aws_lb" "test" {
 
 # redirect the HTTP request to HTTPS port
 resource "aws_lb_listener" "frontend_http" {
+  count             = var.lb_type == "public" ? 1 : 0
   load_balancer_arn = aws_lb.test.arn
   port              = var.app_port
   protocol          = "HTTP"
@@ -171,6 +172,7 @@ resource "aws_lb_listener" "frontend_http" {
 
 # accepting the HTTPS requests
 resource "aws_lb_listener" "frontend_https" {
+  count             = var.lb_type == "public" ? 1 : 0
   load_balancer_arn = aws_lb.test.arn
   port              = "443"
   protocol          = "HTTPS"
