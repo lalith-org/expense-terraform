@@ -186,6 +186,7 @@ resource "aws_lb_listener" "frontend_https" {
 }
 
 resource "aws_lb_listener" "backend" {
+  count             = var.lb_type != "public" ? 1 : 0
   load_balancer_arn = aws_lb.test.arn
   port              = var.app_port
   protocol          = "HTTP"
