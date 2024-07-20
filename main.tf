@@ -23,7 +23,7 @@
 
 module "frontend" {
   source                    = "./modules/app-asg"
-  app_port                  = 8080
+  app_port                  = 80
   bastion_nodes             = var.bastion_nodes
   component                 = "frontend"
   env                       = var.env
