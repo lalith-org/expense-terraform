@@ -199,5 +199,5 @@ resource "aws_route53_record" "load_balancer" {
   name    = "${var.component}-${var.env}"
   type    = "CNAME"
   ttl     = 30
-  records = [aws_lb.test[0].dns_name]
+  records = [aws_lb.test.dns_name]
 }
