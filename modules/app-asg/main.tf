@@ -146,11 +146,11 @@ resource "aws_lb" "test" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "tg-ga" {
-  target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = aws_autoscaling_group.bar.id
-  port             = var.app_port
-}
+#resource "aws_lb_target_group_attachment" "tg-ga" {
+#  target_group_arn = aws_lb_target_group.tg.arn
+#  target_id        = aws_autoscaling_group.bar.id
+#  port             = var.app_port
+#}
 
 # redirect the HTTP request to HTTPS port
 resource "aws_lb_listener" "frontend_http" {
