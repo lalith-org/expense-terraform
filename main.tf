@@ -21,27 +21,27 @@
 #}
 #
 
-#module "frontend" {
-#  depends_on                = [module.backend]
-#  source                    = "./modules/app-asg"
-#  app_port                  = 80
-#  bastion_nodes             = var.bastion_nodes
-#  component                 = "frontend"
-#  env                       = var.env
-#  instance_type             = var.instance_type
-#  max_capacity              = var.max_capacity
-#  min_capacity              = var.min_capacity
-#  prometheus_nodes          = var.prometheus_nodes
-#  server_app_port_sg_cidr   = var.public_subnet_list
-#  subnets                   = module.vpc.frontend_subnet_list
-#  vpc_id                    = module.vpc.vpc_id
-#  vault_token               = var.vault_token
-#  lb_app_port_sg_cidr       = ["0.0.0.0/0"]
-#  lb_ports                  = {"https":443, "http":80}
-#  lb_subnets                = module.vpc.lb_subnets_list
-#  lb_type                   = "public"
-#  zone_id                   = var.zone_id
-#}
+module "frontend" {
+  depends_on                = [module.backend]
+  source                    = "./modules/app-asg"
+  app_port                  = 80
+  bastion_nodes             = var.bastion_nodes
+  component                 = "frontend"
+  env                       = var.env
+  instance_type             = var.instance_type
+  max_capacity              = var.max_capacity
+  min_capacity              = var.min_capacity
+  prometheus_nodes          = var.prometheus_nodes
+  server_app_port_sg_cidr   = var.public_subnet_list
+  subnets                   = module.vpc.frontend_subnet_list
+  vpc_id                    = module.vpc.vpc_id
+  vault_token               = var.vault_token
+  lb_app_port_sg_cidr       = ["0.0.0.0/0"]
+  lb_ports                  = {"https":443, "http":80}
+  lb_subnets                = module.vpc.lb_subnets_list
+  lb_type                   = "public"
+  zone_id                   = var.zone_id
+}
 
 module "backend" {
   depends_on                = [module.rds]
