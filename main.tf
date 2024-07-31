@@ -43,27 +43,27 @@ module "frontend" {
   zone_id                   = var.zone_id
 }
 
-#module "backend" {
-#  depends_on                = [module.rds]
-#  source                    = "./modules/app-asg"
-#  app_port                  = 8080
-#  bastion_nodes             = var.bastion_nodes
-#  component                 = "backend"
-#  env                       = var.env
-#  instance_type             = var.instance_type
-#  max_capacity              = var.max_capacity
-#  min_capacity              = var.min_capacity
-#  prometheus_nodes          = var.prometheus_nodes
-#  server_app_port_sg_cidr   = concat(var.frontend_subnet_list, var.backend_subnet_list)
-#  subnets                   = module.vpc.backend_subnet_list
-#  vpc_id                    = module.vpc.vpc_id
-#  vault_token               = var.vault_token
-#  lb_app_port_sg_cidr       = var.frontend_subnet_list
-#  lb_ports                  = { http : 8080 }
-#  lb_subnets                = module.vpc.backend_subnet_list
-#  lb_type                   = "private"
-#  zone_id                   = var.zone_id
-#}
+module "backend" {
+  depends_on                = [module.rds]
+  source                    = "./modules/app-asg"
+  app_port                  = 8080
+  bastion_nodes             = var.bastion_nodes
+  component                 = "backend"
+  env                       = var.env
+  instance_type             = var.instance_type
+  max_capacity              = var.max_capacity
+  min_capacity              = var.min_capacity
+  prometheus_nodes          = var.prometheus_nodes
+  server_app_port_sg_cidr   = concat(var.frontend_subnet_list, var.backend_subnet_list)
+  subnets                   = module.vpc.backend_subnet_list
+  vpc_id                    = module.vpc.vpc_id
+  vault_token               = var.vault_token
+  lb_app_port_sg_cidr       = var.frontend_subnet_list
+  lb_ports                  = { http : 8080 }
+  lb_subnets                = module.vpc.backend_subnet_list
+  lb_type                   = "private"
+  zone_id                   = var.zone_id
+}
 
 
 module "rds" {
