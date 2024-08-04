@@ -79,7 +79,7 @@ resource "aws_autoscaling_group" "bar" {
   }
 
   tag {
-    key                 = "monitor"
+    key                 = "Monitor"
     value               = "yes"
     propagate_at_launch = true
   }
