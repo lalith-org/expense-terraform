@@ -84,6 +84,12 @@ resource "aws_autoscaling_group" "bar" {
     propagate_at_launch = true
   }
 
+  tag {
+    key                 = "env"
+    value               = var.env
+    propagate_at_launch = true
+  }
+
 }
 
 
